@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Sweetheart 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fff0f5;
+            font-family: 'Mali', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 30px;
+            border: 5px solid #ffb3d9;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
+            z-index: 10;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        .cat-gif {
+            width: 150px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+        }
+
+        h1 { color: #ff4d94; font-size: 1.8rem; margin-bottom: 10px; }
+        p { color: #ff80bf; font-size: 1.1rem; }
+
+        /* ปรับแต่งปุ่ม ร้ากกก ให้ดูนุ่มฟู */
+        #yesBtn {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Mali', cursive;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff4d94, #ff80bf);
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 77, 148, 0.4);
+            position: fixed; /* เปลี่ยนเป็น fixed เพื่อให้ขยับไปมาได้ทั่วจอ */
+            z-index: 999;
+            transition: transform 0.1s;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.2);
+        }
+
+        .heart {
+            position: absolute;
+            color: #ffb3d9;
+            pointer-events: none;
+            animation: floatUp 4s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="main-content">
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXN6ZndubmZicm94eXpueGZ3bmZicm94eXpueGZ3bmZicm94eSZlcD12MV9pbnRlcm5hbV9naWZfYnlfaWQmY3Q9cw/v8Y8X8IykI3P8hE37k/giphy.gif" alt="Cute Cat" class="cat-gif">
+            <h1>รักน่าไปเเมวขาสั้น? 🌸</h1>
+            <p>เค้ารักเธอที่สุดในโลกเลยยย ✨</p>
+            <div style="height: 100px;"></div> </div>
+    </div>
+
+    <button id="yesBtn" onclick="answeredYes()">ร้ากกก 💖</button>
+
+    <script>
+        const btn = document.getElementById('yesBtn');
+        let posX = Math.random() * (window.innerWidth - 150);
+        let posY = Math.random() * (window.innerHeight - 100);
+        let velX = 3; // ความเร็วแนวแกน X
+        let velY = 3; // ความเร็วแนวแกน Y
+
+        // ฟังก์ชันทำให้ปุ่มเด้งไปมาเหมือนสกรีนเซฟเวอร์
+        function moveButton() {
+            posX += velX;
+            posY += velY;
+
+            if (posX + btn.offsetWidth > window.innerWidth || posX < 0) {
+                velX = -velX;
+            }
+            if (posY + btn.offsetHeight > window.innerHeight || posY < 0) {
+                velY = -velY;
+            }
+
+            btn.style.left = posX + 'px';
+            btn.style.top = posY + 'px';
+
+            requestAnimationFrame(moveButton);
+        }
+
+        // เริ่มการขยับ
+        moveButton();
+
+        function answeredYes() {
+            // หยุดการขยับปุ่ม
+            velX = 0;
+            velY = 0;
+            btn.style.display = 'none';
+
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHR1amFid2ZueGZ3bmZicm94eXpueGZ3bmZicm94eXpueGZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/5GoVLqeAOo6PK/giphy.gif" width="150">
+                <h1 style="font-size: 2.5rem; margin-top: 20px;">รักที่สุดเลย! 💖</h1>
+                <p>!!!!!!!!!!!!!!! 🐾✨</p>
+            `;
+            for(let i=0; i<30; i++) { setTimeout(createHeart, i*50); }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            const icons = ['❤️', '💖', '🌸', '✨', '🐾'];
+            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+</body>
+</html>
