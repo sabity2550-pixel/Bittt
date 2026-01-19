@@ -39,7 +39,6 @@
         h1 { color: #ff4d94; font-size: 1.8rem; margin-bottom: 10px; }
         p { color: #ff80bf; font-size: 1.1rem; }
 
-        /* ปรับแต่งปุ่ม ร้ากกก ให้ดูนุ่มฟู */
         #yesBtn {
             padding: 15px 40px;
             font-size: 1.5rem;
@@ -51,13 +50,32 @@
             background: linear-gradient(45deg, #ff4d94, #ff80bf);
             color: white;
             box-shadow: 0 8px 20px rgba(255, 77, 148, 0.4);
-            position: fixed; /* เปลี่ยนเป็น fixed เพื่อให้ขยับไปมาได้ทั่วจอ */
+            position: fixed;
             z-index: 999;
             transition: transform 0.1s;
         }
 
         #yesBtn:hover {
             transform: scale(1.2);
+        }
+
+        /* ปุ่มย้อนกลับ */
+        .retry-btn {
+            margin-top: 25px;
+            padding: 10px 20px;
+            background-color: #ffd1dc;
+            color: #ff4d94;
+            border: 2px solid #ffb3d9;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Mali', cursive;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .retry-btn:hover {
+            background-color: #ffb3d9;
+            color: white;
         }
 
         .heart {
@@ -78,21 +96,29 @@
     <div class="container">
         <div id="main-content">
             <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXN6ZndubmZicm94eXpueGZ3bmZicm94eXpueGZ3bmZicm94eSZlcD12MV9pbnRlcm5hbV9naWZfYnlfaWQmY3Q9cw/v8Y8X8IykI3P8hE37k/giphy.gif" alt="Cute Cat" class="cat-gif">
-            <h1>รักน่าไปเเมวขาสั้น? 🌸</h1>
+            <h1>เป็นแฟนกันนะ? 🌸</h1>
             <p>เค้ารักเธอที่สุดในโลกเลยยย ✨</p>
-            <div style="height: 100px;"></div> </div>
+            <div style="height: 100px;"></div>
+        </div>
     </div>
 
     <button id="yesBtn" onclick="answeredYes()">ร้ากกก 💖</button>
 
     <script>
         const btn = document.getElementById('yesBtn');
-        let posX = Math.random() * (window.innerWidth - 150);
-        let posY = Math.random() * (window.innerHeight - 100);
-        let velX = 3; // ความเร็วแนวแกน X
-        let velY = 3; // ความเร็วแนวแกน Y
+        let posX, posY, velX, velY;
+        let animationId;
 
-        // ฟังก์ชันทำให้ปุ่มเด้งไปมาเหมือนสกรีนเซฟเวอร์
+        // ฟังก์ชันกำหนดค่าเริ่มต้นให้ปุ่ม
+        function initButton() {
+            posX = Math.random() * (window.innerWidth - 150);
+            posY = Math.random() * (window.innerHeight - 100);
+            velX = 3;
+            velY = 3;
+            btn.style.display = 'block';
+            moveButton();
+        }
+
         function moveButton() {
             posX += velX;
             posY += velY;
@@ -107,23 +133,21 @@
             btn.style.left = posX + 'px';
             btn.style.top = posY + 'px';
 
-            requestAnimationFrame(moveButton);
+            animationId = requestAnimationFrame(moveButton);
         }
 
-        // เริ่มการขยับ
-        moveButton();
+        initButton();
 
         function answeredYes() {
-            // หยุดการขยับปุ่ม
-            velX = 0;
-            velY = 0;
+            cancelAnimationFrame(animationId);
             btn.style.display = 'none';
 
             const content = document.getElementById('main-content');
             content.innerHTML = `
                 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHR1amFid2ZueGZ3bmZicm94eXpueGZ3bmZicm94eXpueGZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/5GoVLqeAOo6PK/giphy.gif" width="150">
                 <h1 style="font-size: 2.5rem; margin-top: 20px;">รักที่สุดเลย! 💖</h1>
-                <p>!!!!!!!!!!!!!!! 🐾✨</p>
+                <p>เย้! มีแฟนแล้วววว ดีใจที่สุดเลยครับ 🐾✨</p>
+                <button class="retry-btn" onclick="location.reload()">↺ เล่นอีกรอบ</button>
             `;
             for(let i=0; i<30; i++) { setTimeout(createHeart, i*50); }
         }
